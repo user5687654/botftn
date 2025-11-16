@@ -501,8 +501,18 @@ async def on_command_error(ctx, error):
 # Démarrage
 if __name__ == "__main__":
     keep_alive()  # Démarre Flask pour Render
+    
+    # Charge le .env en local (ignoré sur Render)
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except:
+        pass
+    
     TOKEN = os.environ.get("DISCORD_TOKEN")
     if not TOKEN:
         print("❌ Erreur: DISCORD_TOKEN non trouvé dans les variables d'environnement!")
+        print("💡 En local: Créez un fichier .env avec DISCORD_TOKEN=votre_token")
+        print("💡 Sur Render: Ajoutez DISCORD_TOKEN dans Environment Variables")
     else:
         bot.run(TOKEN)
